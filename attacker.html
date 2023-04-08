@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tellor Manipulation Attacker --- (Only Mumbai Polygon) </title>
+<script src="node_modules/web3.js-browser/build/web3.js"></script>
+
+
+
+</head>
+<body>
+<!---->
+    <input id="connect-button" type="button" value="Connect .Metamask"></input>    
+
+
+    <h1>Tellor attacker (only on Mumbai Polygon) </h1>
+
+    Dispute From: <input id="dispute_from" type="number" value="0" ></input>
+    Dispute To: <input id="dispute_to" type="number" value="0" ></input>
+    
+    <input type="button" value="Attack!" onchange="disputeFromTo()"></input>
+    <br>
+    <br>
+
+    Attacker contract
+
+
+<script>
+
+    if (typeof window.ethereum !== 'undefined'){
+        console.log('MetaMask is installed!');
+    }else{
+        console.log('Metamask not installed!');
+    }
+ 
+
+
+   document.getElementById('connect-button').addEventListener('click', event => {
+   let account;
+   ethereum.request({method: 'eth_requestAccounts'}).then(accounts => {
+     account = accounts[0];
+     console.log(account);
+   });
+   });
+ 
+ 
+ </script>
+
+</html>

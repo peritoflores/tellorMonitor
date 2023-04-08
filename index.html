@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tellor Monitor</title>
+<script src="node_modules/web3.js-browser/build/web3.js"></script>
+
+<script src="monitor.js"></script>
+
+
+
+</head>
+<body>
+<!---->
+    <!--<input id="start" type="button" value="Show Data" onclick="setProvider()"></input>    -->
+
+    <table>
+      <tr>
+        <td> Current Time (Machine) </td>
+        <td><div id="current_time"></div></td>
+    </tr>
+
+        <tr>
+            <td> Select Network </td>
+            <td>
+                <select id="network_selector" onChange="setProvider()">
+                <option value="0" selected >Ethereum MainNet</option>
+                <option value="1">Mumbai Polygon</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td> Chain ID</td>
+            <td><div id="chain_id"></div></td>
+        </tr>
+        <tr>
+            <td> Query ID</td>
+            <td><div id="query_id"></div></td>
+        </tr>
+        
+        
+        <tr>
+            <td> Simulate before </td>
+            <td> <input id="simulated_days_before" type="number" value="0" onChange="setProvider()"></input>days <input id="simulated_hours_before" type="number" value="0" onChange="setProvider()" ></input>hours </td>
+        </tr>
+        <tr>
+            <td> Display data in days </td>
+            <td> <input id="display_data_in_days" type="number" value="10" onChange="setProvider()"></input>days </td>
+        </tr>
+    
+        <tr>
+          <td>Daily Frequency          </td>
+          <td><div id="frequency"></div></td>
+        </tr>
+        
+      
+        <tr>
+            <td>Dispute Fee</td>
+            <td><div id="dispute_fee"></div></td>
+          </tr>
+          <tr>
+            <td>Stake Amount</td>
+            <td><div id="stake_amount"></div></td>
+          </tr>
+        
+          
+      
+        <tr>
+            <td> Open Disputes on ID            </td>
+            <td><div id="open_disputes_on_ID"></div></td>
+        </tr>
+        <tr>
+            <td> Number of Reporters            </td>
+            <td><div id="number_of_reporters"></div></td>
+        </tr>
+        </table>
+      
+       
+        <h3> Main Tellor Parameters and Data</h3>
+        <table id="contracts_table">
+         <tr>
+           <td>Token Contract  </td>
+           <td><div id="token_contract_url"></div> </td>
+        </tr>
+        <tr>
+         <td>Oracle Contract  </td>
+         <td> <div id="oracle_contract_url"></div> </td>
+         </tr>
+         <tr>
+         <td>Governance Contract  </td>
+         <td> <div id="governance_contract_url"></div></td>
+      </tr>
+     </table>
+     <h2>FOR LIQUITY</h2>
+     <h3>Chainlink Latest Round Data</h3>
+     <table>
+      
+      <tr>
+        <td>Chainlink Round ID  </td>
+        <td><div id="chainlink_roundID"></div></td>
+      </tr>
+      <tr>
+        <td>Chainlink Phase ID  </td>
+        <td><div id="chainlink_phaseID"></div></td>
+      </tr>
+      <tr>
+        <td>Chainlink Aggregator RoundID  </td>
+        <td><div id="chainlink_aggregator_roundID"></div></td>
+      </tr>
+      
+      
+      <tr>
+        <td>Chainlink           price  </td>
+        <td><div id="chainlink_price"></div></td>
+      </tr>
+      <tr>
+        <td>Chainlink Started At  </td>
+        <td><div id="chainlink_started_at"></div></td>
+      </tr>
+      <tr>
+        <td>Chainlink Updated At  </td>
+        <td><div id="chainlink_updated_at"></div></td>
+      </tr>
+     </table>
+  
+     <h3>Chainlink One before the lastest (getRoundID)</h3>
+     <table>
+      
+      <tr>
+        <td>Chainlink Round ID  </td>
+        <td><div id="chainlink_roundID_before_latest"></div></td>
+      </tr>
+      <tr>
+        <td>Chainlink           price  </td>
+        <td><div id="chainlink_price_before_latest"></div></td>
+      </tr>
+      <tr>
+        <td>Chainlink Started At  </td>
+        <td><div id="chainlink_started_at_before_latest"></div></td>
+      </tr>
+      <tr>
+        <td>Chainlink Updated At  </td>
+        <td><div id="chainlink_updated_at_before_latest"></div></td>
+      </tr>
+     </table>
+     
+
+
+
+
+
+
+
+       
+       
+        <h3>Main Liquity Parameters</h3>
+        <table>
+          
+        <tr>
+          <td>Dispute Window (in seconds)</td>
+          <td><div id="dispute_window"></div></td>
+        </tr>
+        <tr>
+          <td>Reports in Window</td>
+          <td  bgcolor="blue"><div id="reports_in_dispute_window"></div></td>
+        </tr>
+        <tr>
+          <td>LIQUITY TIMEOUT (in seconds)</td>
+          <td><div id="liquity_timeout"></div></td>
+        </tr>
+        <tr>
+          <td bgcolor="yellow">Tellor Price before Dispute Windows </td>
+          <td bgcolor="yellow"><div id="tellor_price_after_dispute"></div></td>
+        </tr>
+        <tr>
+          <td bgcolor="yellow">Tellor Price Timestamp after Dispute Window</td>
+          <td bgcolor="yellow"><div id="tellor_price_timestamp_after_dispute"></div></td>
+        </tr>
+        <tr>
+          <td> Tellor Status            </td>
+          <td><div id="tellor_status"></div></td>
+      </tr>
+
+        </table>
+
+        <h3>Attacking PoC</h3>
+
+      <table>
+        <tr>
+          <td>Freeze Tellor for Liquity</td>
+          <td><div id="attacker_poc_table"></div> here the URL</td>
+        </tr>
+
+
+
+        </table>
+
+           <h3>Reporters for this pair  <input type="button" value="Show Reporters (RPC consuming)" onclick="calculateReporters()"></h3> 
+        <table id="reporters_table">
+          <tr>
+            <th> Reporter Address </th>
+            <th> Reporter Staking </td>
+         </tr>
+      </table>
+    
+<br>
+      
+    <h3>Tellor Data Feed & Manipulation Cost</h3>
+    <table id="tellor_data">
+    </table>
+
+
+</body>
+
+<script>
+ 
+    setProvider();
+  //  showAllData();
+    var intervalId = window.setInterval(function(){  showAllData();  }, 5000);
+ 
+ 
+ </script>
+
+</html>
