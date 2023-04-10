@@ -1,43 +1,40 @@
 // npm install web3
 
-//let Web3 = require("Web3");  When you use with Command line uncomment
-
-
 
 const RPCProviderEthereumMainnet = "https://dry-proportionate-feather.discover.quiknode.pro/5e7253e60998f8f15c3bfb0eca533ba3ce75b296/";
 
-const RCPProviderMumbaiPolygon= "https://alpha-wispy-emerald.matic-testnet.discover.quiknode.pro/5ea1a8e89cd8f2e72d863b99679d6994ba2cc8fa/";
+const RCPProviderMumbaiPolygon = "https://alpha-wispy-emerald.matic-testnet.discover.quiknode.pro/5ea1a8e89cd8f2e72d863b99679d6994ba2cc8fa/";
 
 let RPCProvider = RPCProviderEthereumMainnet;
 
-//RPCProvider = RCPProviderMumbaiPolygon;
+// PARAMETERS TO CONFIGURE ALARMS
+const yellowAlarm = 0.5;
+const readAlarm = 1;
 
 let web3;
 let chainId;
 let blockchainExplorer;
-
-
 
 const networks =  {
     "networksList":
     [{
       "id": "1",
       "name": "Ethereum Mainnet",
-       "RPCProvider" : "https://dry-proportionate-feather.discover.quiknode.pro/5e7253e60998f8f15c3bfb0eca533ba3ce75b296/",
+       "RPCProvider" : RPCProviderEthereumMainnet,
        "blockchainExplorer":"https://www.etherscan.io/",
-       "CHAINLINK_ETH_USD_AGGREGATOR":"0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419"  //this is for mainnet -- need to add here because it depends on the chain
-    
+       "CHAINLINK_ETH_USD_AGGREGATOR":"0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",  //this is for mainnet -- need to add here because it depends on the chain
+       "TOKEN_ADDRESS": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0"   
     },{
         "id": "2",
         "name": "Polygon Mumbai",
-       "RPCProvider" : "https://alpha-wispy-emerald.matic-testnet.discover.quiknode.pro/5ea1a8e89cd8f2e72d863b99679d6994ba2cc8fa/",
+       "RPCProvider" : RCPProviderMumbaiPolygon,
         "blockchainExplorer":"https://mumbai.polygonscan.com/",
-        "CHAINLINK_ETH_USD_AGGREGATOR":"0x0715A7794a1dc8e42615F059dD6e406A6594651A"  //this is for mainnet -- need to add here because it depends on the chain
+        "CHAINLINK_ETH_USD_AGGREGATOR":"0x0715A7794a1dc8e42615F059dD6e406A6594651A",  //this is for mainnet -- need to add here because it depends on the chain
+        "TOKEN_ADDRESS": "0xce4e32fe9d894f8185271aa990d2db425df3e6be"
+
     }
 ]
   }
-
- 
 
 
 const tokenABI = [{"inputs":[{"internalType":"address","name":"_tContract","type":"address"},{"internalType":"address","name":"_oTellor","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_newTellor","type":"address"}],"name":"NewTellorAddress","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"_allowances","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"addresses","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"balances","outputs":[{"internalType":"uint128","name":"fromBlock","type":"uint128"},{"internalType":"uint128","name":"value","type":"uint128"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"bytesVars","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_newDeity","type":"address"}],"name":"changeDeity","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_newOwner","type":"address"}],"name":"changeOwner","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_tContract","type":"address"}],"name":"changeTellorContract","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"currentMiners","outputs":[{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"address","name":"miner","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"disputeIdByDisputeHash","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"disputesById","outputs":[{"internalType":"bytes32","name":"hash","type":"bytes32"},{"internalType":"int256","name":"tally","type":"int256"},{"internalType":"bool","name":"executed","type":"bool"},{"internalType":"bool","name":"disputeVotePassed","type":"bool"},{"internalType":"bool","name":"isPropFork","type":"bool"},{"internalType":"address","name":"reportedMiner","type":"address"},{"internalType":"address","name":"reportingParty","type":"address"},{"internalType":"address","name":"proposedForkAddress","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"migrated","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"address","name":"","type":"address"}],"name":"minersByChallenge","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"newValueTimestamps","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"requestIdByQueryHash","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"uints","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
@@ -54,25 +51,15 @@ let ORACLE_ADDRESS = "0xD9157453E2668B2fc45b7A803D3FEF3642430cC0";
 
 let GOVERNANCE_ADDRESS = "0x46038969D7DC0b17BC72137D07b4eDe43859DA45";
 
-let TOKEN_ADDRESS = "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0";
-
+let TOKEN_ADDRESS;
 
 
 //CODE EXECUTED ON STARTUP
 
-/*
-
-let tokenContract = new web3.eth.Contract(tokenImpABI, TOKEN_ADDRESS);
-let oracleContract = new web3.eth.Contract(oracleABI, ORACLE_ADDRESS);
-let governanceContract = new web3.eth.Contract(governanceABI, GOVERNANCE_ADDRESS);
-let chainlinkAgregatorContract = new web3.eth.Contract(chainlinkAgregatorABI, CHAINLINK_ETH_USD_AGGREGATOR);
-
-*/
 
 let ETH_USD_queryID= "0x83a7f3d48786ac2667503a61e8c415438ed2922eb86a2906e4ee66d9a2ce4992";
 let BTC_USD_queryID= "0xa6f013ee236804827b77696d350e9f0ac3e879328f2a3021d473a0b778ad78ac";
 
-//let queryID = ETH_USD_queryID;
 let queryID = ETH_USD_queryID;
 
 
@@ -85,15 +72,10 @@ let chainlinkprice;
 let phaseID;
 let aggregatorroundID;
 
-
-
 let manipulationcost= 1e40;
 let reportsreceived;
-let TRBprice = 15; //Assume 15 USD is the
+let TRBprice = 15; //Assume TRB price is 15 USD
 let disputeFee;
-
-
-
 
 var tellorDataTable = [];
 let openDisputesonID = 0;
@@ -106,9 +88,7 @@ const secondsInAnHour = 3600;
 const secondsInADay= 86400;
 let LIQUITY_TIMEOUT = 4*60*60; //4 HOURS
 
-// PARAMETERS TO CONFIGURE ALARMS
-const yellowAlarm = 0.5;
-const readAlarm = 1;
+
 
  // TIME WINDOWS
 let displayDataInDays = 10;
@@ -161,11 +141,13 @@ async function setProvider(){
 
     blockchainExplorer =  networks.networksList[selectId].blockchainExplorer;
 
+    TOKEN_ADDRESS = networks.networksList[selectId].TOKEN_ADDRESS; 
     tokenContract = new web3.eth.Contract(tokenImpABI, TOKEN_ADDRESS);
     oracleContract = new web3.eth.Contract(oracleABI, ORACLE_ADDRESS);
     governanceContract = await new web3.eth.Contract(governanceABI, GOVERNANCE_ADDRESS);
     let CHAINLINK_ETH_USD_AGGREGATOR_ADDRESS = RPCProvider =  networks.networksList[selectId].CHAINLINK_ETH_USD_AGGREGATOR;
     chainlinkAgregatorContract = new web3.eth.Contract(chainlinkAgregatorABI, CHAINLINK_ETH_USD_AGGREGATOR_ADDRESS);
+       
     
     updateNotSoChangingValues();
 
@@ -213,10 +195,7 @@ async function updateNotSoChangingValues(){
 function clearData(){
     reportersMap = new Map();
     tellorLastTimestamp = nowInSeconds() - timeWindow;
-    
-   // console.log("tellor last timestamp" + toHoursAndMinutes(tellorLastTimestamp));
     tellorDataTable = [];
-
 }
 
 function calculateReportsInWindow(){
@@ -235,10 +214,6 @@ function calculateReportsInWindow(){
 async function printFrontEnd(){
 
     document.getElementById("current_time").innerHTML = secondsToDate(nowInSeconds());
-
-    //document.getElementById("chainlink_price").innerHTML = chainlinkprice;
-   //Print chainlink values
-   
    if ( chainlinkLatestRoundDataAnswer!=undefined){
            document.getElementById("chainlink_roundID").innerHTML = chainlinkLatestRoundDataAnswer[0];
            document.getElementById("chainlink_phaseID").innerHTML = phaseID;
@@ -254,9 +229,6 @@ async function printFrontEnd(){
     document.getElementById("chainlink_started_at_before_latest").innerHTML = chainlinkgetRoundBeforeLatestRoundAnswer[2];
     document.getElementById("chainlink_updated_at_before_latest").innerHTML = chainlinkgetRoundBeforeLatestRoundAnswer[3];
   }
-
-
-
 
     document.getElementById("open_disputes_on_ID").innerHTML = openDisputesonID;
     document.getElementById("dispute_window").innerHTML=disputeWindow;
@@ -283,8 +255,6 @@ async function printFrontEnd(){
         document.getElementById("tellor_status").innerHTML = "Tellor is Working";
     }
 
-
-    
     //Print Contracts URLs and links
     let tokenContractURL=blockchainExplorer+'address/'+TOKEN_ADDRESS;
     document.getElementById("token_contract_url").innerHTML = "<a href='"+tokenContractURL+"' target='_blank'>"+TOKEN_ADDRESS+"</a>";
@@ -416,13 +386,6 @@ function showPrice(price){
     return parseFloat(web3.utils.fromWei(price)).toFixed(2); 
 }
 
-
-
-
-//function getPhaseIDand110680464442257000000
-
-
-
 async function updateMainValues(){
 
     reports = await governanceContract.methods.getMultipleValuesBefore(queryID,nowInSeconds(),secondsInADay,10000).call(); //this can be much faster, just read internal table.
@@ -436,15 +399,10 @@ async function updateMainValues(){
         
         phaseID = parseInt(roundID._hex.substring(2,4),16);
         aggregatorroundID = parseInt(roundID._hex.substring(4,20),16);
-        console.log("Round Id hex "+roundID._hex);
-        console.log(phaseID);
-        console.log(aggregatorroundID);
-   
+
         //incorrectly calculate last Round Id like Liquity, 
         let roundIDLast= BigInt(roundID._hex) - BigInt(1);
         roundIDLastHex = '0x'+roundIDLast.toString(16);
-
-
         chainlinkgetRoundBeforeLatestRoundAnswer = await chainlinkAgregatorContract.methods.getRoundData(roundIDLastHex).call();;
     }
 
@@ -465,43 +423,17 @@ async function updateMainValues(){
     }
 
 
-/*
-
-async function showBalance(holder){
-    await console.log("Balance of  "+ holder);
-    let balance = await tokenContract.methods.balanceOf(holder).call();
-}
-
-*/
-
-
-  /**
-     * @dev Returns all information about a staker
-     * @param _stakerAddress address of staker inquiring about
-     * @return uint startDate of staking
-     * @return uint current amount staked
-     * @return uint current amount locked for withdrawal
-     * @return uint reward debt used to calculate staking rewards
-     * @return uint reporter's last reported timestamp
-     * @return uint total number of reports submitted by reporter
-     * @return uint governance vote count when first staked
-     * @return uint number of votes cast by staker when first staked
-     * @return bool whether staker is counted in totalStakers
-     */
 async function showStakerInfo(holder){
     let info = await oracleContract.methods.getStakerInfo(holder).call();
     console.log("TRB locked of "+holder+":");
     console.log(web3.utils.fromWei(info[1])+" TRB");
     console.log(info);
-
     
 }
 
 async function reportedValuesSinceCreation(queryID){
     let reportsamount = await oracleContract.methods.getNewValueCountbyQueryId(queryID).call();
     console.log("Number of reports "+reportsamount);
-    
-    
 }
 
 
@@ -583,22 +515,15 @@ async function getMultipleValuesBefore(queryID){
         tellorLastTimestamp = reports[1][length-1];        //Update Tellor Last Timestamp read
     }
 
-    //     tellorDataTable = [];
-
     for (let step = 0; step < length; step++) {
         stepprice = reports[0][step];
         steptimestamp = reports[1][step];
-        //console.log(steppriceformated + " USD "+parseFloat(change).toFixed(2)+" %" + " Age: "+steptimediff+"s "+ctm+" TRB. ("+ctminUSD+"USD)");
-        //console.log(steptimestamp.toNumber());
-        
-        
-       // await let reporterstep = governanceContract.methods.getReporterByTimestamp(queryID,steptimestamp);
         
         if(steptimestamp >oldTellorLastTimestamp){
             tellorDataTable.push({timestamp: steptimestamp, price: stepprice, reporter:""});
         }
     }
-   // calculateReporters();
+
     printFrontEnd();
 
 }
